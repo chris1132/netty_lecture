@@ -1,3 +1,8 @@
 2018-7-20
 系统学习netty
 完成服务端部分
+
+2018-7-24
+netty本身不是按照servlet规则
+http是请求响应模式的无状态的协议，对于netty是监听tcp的端口号，对于他们底层来说仍是serversocket
+对于springmvc程序来说，运行在jetty、Tomcat这些servlet容器上，这些容器保证连接关闭，对于netty，连接可以自己控制如keeplive时间
