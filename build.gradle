@@ -11,6 +11,10 @@ repositories {
 }
 
 dependencies {
-    testCompile("io.netty:netty-all:4.1.21.Final")
+    compile(
+            "io.netty:netty-all:4.1.21.Final",
+            "com.google.protobuf:protobuf-java:3.6.1",
+            "com.google.protobuf:protobuf-java-util:3.6.1"
+    )
 
 }
