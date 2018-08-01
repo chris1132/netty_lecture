@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script type="text/javascript">
+    var socket;
+    if(window.WebSocket){
+        socket = new WebSocket("ws://localhost:8899/ws");
+        socket.onmessage = function(event){
+            var mes = document.getElementById("response");
+            mes.value = mes.value + "\n" + event.data;
+        }
+        socket.onopen = function(event){
+            var mes = document.getElementById("response");
+            mes.value = "on connect!";
+        }
+        socket.onclose = function(event){
+            var mes = document.getElementById("response");
+            mes.value = mes.value+"\n"+"connnect close";
+        }
+    }else{
+        alert("not support")
+    }
+
+    function send(){
+         if(!window.WebSocket){
+            return ;
+         }
+         if(socket.readyState == WebSocket.OPEN){
+            var message =  document.getElementById('mess').value;
+            socket.send(message);
+         }else{
+            alert("connect not open");
+         }
+    }
+</script>
+
+    <form onsubmit="return false;">
+        <textarea id="mess" name="mess" style="width:500px;height:300px" ></textarea>
+        <input type="button" value="send message" onclick="send()"/>
+        <h3>output</h3>
+        <textarea id="response" style="width:500px;height:300px"  name="mess"></textarea>
+        <input type="button" onclick="javascript: document.getElementById('response').value=''" value="clear"/>
+    </form>
+
+</body>
+</html>
