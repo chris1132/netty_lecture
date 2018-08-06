@@ -64,3 +64,18 @@ RPC编写模式，：
 3、在客户端与服务器端分别引入RPC编译器所生成的文件，即可像调用本地方法一样调用远程方法
 决定rpc框架效率看编解码效率
 在公司内网中更推荐用rpc方式进行，减少基于http通信带来的损耗。
+
+2018-8-2
+**使用protocol-buffer构建对象，实现编解码
+需求，客户端A,服务器B，A构造对象，发给服务器端，B收到后，打印对象信息，把另一个对象发给A。
+
+2018-8-3
+接昨天，已完成昨天需求，待解决问题
+        pipeline.addLast(new ProtobufDecoder(StuffInfo.Teacher.getDefaultInstance()))   //StuffInfo.Teacher编码对象写死，不灵活，
+2018-8-6
+解决方案，在发送消息外再包一层，见StuffInfo.proto，通过枚举列举各消息类型，再通过一个字段标识本次消息传递的是哪个消息类型
+netty基于protocolbuffer这种数据传递过程，对于具体用哪种方法或数据类型来处理请求，存在判断繁杂问题，因为，一段向另一段发送数据时候，接收方要能判断对方发送哪种数据类型，通过if-else去寻找匹配的数据类型
+而springmvc和netty相比比，springmvc路径路由很清晰直观，如: @RequestMapping(value="../xx/",method=RequestMethod.GET),下面对于一个处理方法。因为springmvc 有dispatcherServlet(控制器)，c向s发起的所有请求，
+都经过dispatcherServlet，再分发给不同的controller，springmvc在启动的时候，找到url和方法对应关系，把对应关系保存（如map），s收到请求后，通过url匹配具体方法。
+
+##Apache Thrift使用

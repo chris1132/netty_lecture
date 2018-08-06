@@ -1,0 +1,41 @@
+syntax = "proto2";
+
+option optimize_for = SPEED;
+option java_package = "com.chovy.netty.sixthexample";
+option java_outer_classname = "StuffInfo";
+
+message MyMessage{
+    enum DataType{
+        StudentType = 1;
+        TeacherType = 2;
+        AuntieType = 3;
+        ResponseType = 4;
+    }
+
+    required DataType data_type = 1;
+
+    oneof dataBody{
+        Student student = 2;
+        Teacher teacher = 3;
+        Auntie auntie = 4;
+        string response_message = 5;
+    }
+
+}
+
+
+message Student{
+    required string name = 1;
+    optional int32 age = 2;
+    optional string address = 3;
+}
+
+message Teacher{
+    required string name = 1;
+    optional int32 age = 2;
+    optional string class = 3;
+}
+message Auntie{
+    optional string name = 1;
+    optional string address = 2;
+}
