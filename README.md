@@ -78,4 +78,15 @@ netty基于protocolbuffer这种数据传递过程，对于具体用哪种方法�
 而springmvc和netty相比比，springmvc路径路由很清晰直观，如: @RequestMapping(value="../xx/",method=RequestMethod.GET),下面对于一个处理方法。因为springmvc 有dispatcherServlet(控制器)，c向s发起的所有请求，
 都经过dispatcherServlet，再分发给不同的controller，springmvc在启动的时候，找到url和方法对应关系，把对应关系保存（如map），s收到请求后，通过url匹配具体方法。
 
-##Apache Thrift使用
+##io体系架构回顾
+
+io的输入流和输出流是两种
+流的分类：
+1、节点流：从特定的地方读写的流类，和目标或目的地直接接触交互的，例如：磁盘或一块内存区域
+2、过滤流：使用节点流作为输出或输出，在节点流基础上的包装。过滤流是使用一个已经存在的输入或输出流连接创建的
+I/O流的连接:
+input：文件-》从文件中取输入字节（FileInputStream）-》增加缓存（BufferedInputStream）-》增加读取java基本数据类型的功能（DataInputStream）（用户使用）-》数据
+output：数据-》往输出流中写入java基本数据类型（DataInputStream）-》提供数据写入到缓冲区的功能（BufferedInputStream）-》将数据写入文件（FileInputStream）-》文件
+节点流：类A  过滤流：B、C    ->   new C(new B(new A())) ;
+java的I/O库提供了一个称作连接的机制，可以将一个流与另一个流首尾相接，形成一个刘管道连接。Decorator（装饰）模式。通过流的连接，可以动态增加流的功能，而这种功能的增加是通过组合一些流的基本功能而动态获取的。
+
