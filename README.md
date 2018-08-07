@@ -79,7 +79,6 @@ netty基于protocolbuffer这种数据传递过程，对于具体用哪种方法�
 都经过dispatcherServlet，再分发给不同的controller，springmvc在启动的时候，找到url和方法对应关系，把对应关系保存（如map），s收到请求后，通过url匹配具体方法。
 
 ##io体系架构回顾
-
 io的输入流和输出流是两种
 流的分类：
 1、节点流：从特定的地方读写的流类，和目标或目的地直接接触交互的，例如：磁盘或一块内存区域
@@ -88,5 +87,25 @@ I/O流的连接:
 input：文件-》从文件中取输入字节（FileInputStream）-》增加缓存（BufferedInputStream）-》增加读取java基本数据类型的功能（DataInputStream）（用户使用）-》数据
 output：数据-》往输出流中写入java基本数据类型（DataInputStream）-》提供数据写入到缓冲区的功能（BufferedInputStream）-》将数据写入文件（FileInputStream）-》文件
 节点流：类A  过滤流：B、C    ->   new C(new B(new A())) ;
-java的I/O库提供了一个称作连接的机制，可以将一个流与另一个流首尾相接，形成一个刘管道连接。Decorator（装饰）模式。通过流的连接，可以动态增加流的功能，而这种功能的增加是通过组合一些流的基本功能而动态获取的。
+java的I/O库提供了一个称作连接的机制，可以将一个流与另一个流首尾相接，形成一个流管道连接。Decorator（装饰）模式。通过流的连接，可以动态增加流的功能，而这种功能的增加是通过组合一些流的基本功能而动态获取的。
+I/O体系由很多类，通过装饰模式，不影响基础功能上，控制类的数量。
+
+volatile 作用：1、内存可见性，A线程修改了自己工作内存的变量值，会修改主内存里变量的值，并刷新到B线程工作内存的值
+2、防止指令重排序，编译后的字节码和编程语言的顺序不一致，加上volatile能防止。
+
+##Nio体系
+
+源码 https://github.com/chris1132/netty_lecture/src/main/java/com/chovy/nio
+1、java.io最核心的概念是流（stream），IO编程就是面向流的编程，java中，一个流要么是输出流，要么是输出流。
+2、java.nio中拥有三个核心概念：Selector，Channel和Buffer。在java.nio中，是面向块（block）或是缓冲区（buffer）编程的。
+3、Buffer本身就是一块内存，底层实现上，实际上是个数组。数据的读、写都是通过Buffer来实现的。
+4、io编程中，数据是从stream中直接读取到程序里，nio中，数据从channel读到buffer中，从buffer数组里读到程序。
+nio中，buffer既可以写入数据，也可以从buffer读取，但当进行读、写切换时，需要调用buffer.flip()方法来反转。
+5、除了数组之外，Buffer还提供了对于数组的结构化访问方式，并且可以追踪到系统读写过程
+---》读和写在底层通过相应标识来判断读、写到什么位置，这些在buffer底层都封装好，无论读、写系统都能定位到当前读写的位置，以及flip反转后从哪读，读到什么地方。
+6、java中的7种原生数据类型（byte、short、int、long、float、double、char）都有各自对应的buffer类型，如IntBuffer，LongBuffer等。boolean数据类型，没有buffer。
+7、channel值得是可以向其写入数据或是从中读取数据的对象，类似于java.io中的stream，所有数据的读写都是通过buffer进行
+与stream不同的是，channel是双向的，一个流只能是inputstream或是outputstream，channel打开后，则可以读取、写入、读写
+由于channel是双向的，因此它能更好地反映出底层操作系统的真是情况，如在linux中，底层操作系统的通道是双向的，
+8、关于NIO Buffer中的3个重要状态属性及其含义：position、limit、capacity
 
