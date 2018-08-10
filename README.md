@@ -1,3 +1,5 @@
+博客地址：https://blog.csdn.net/u010530712/article/details/81187059
+
 2018-7-20
 系统学习netty
 完成服务端部分
@@ -108,4 +110,4 @@ nio中，buffer既可以写入数据，也可以从buffer读取，但当进行�
 与stream不同的是，channel是双向的，一个流只能是inputstream或是outputstream，channel打开后，则可以读取、写入、读写
 由于channel是双向的，因此它能更好地反映出底层操作系统的真是情况，如在linux中，底层操作系统的通道是双向的，
 8、关于NIO Buffer中的3个重要状态属性及其含义：position、limit、capacity
-
+详解见博客

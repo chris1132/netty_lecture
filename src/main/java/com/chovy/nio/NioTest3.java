@@ -16,12 +16,31 @@ public class NioTest3 {
 
         ByteBuffer byteBuffer = ByteBuffer.allocate(512);
 
-        byte[] byteary = "hello world \n  my name is chovy".getBytes();
+        System.out.println("initialize:"+byteBuffer.capacity()+","+byteBuffer.limit()+","+byteBuffer.position());
+
+        byte[] byteary = "hello world \n  my name is chovy , nice to meet you".getBytes();
         for(byte b:byteary) {
             byteBuffer.put(b);
         }
+        System.out.println("first read:"+byteBuffer.capacity()+","+byteBuffer.limit()+","+byteBuffer.position());
         byteBuffer.flip();
+        System.out.println("first flip:"+byteBuffer.capacity()+","+byteBuffer.limit()+","+byteBuffer.position());
         fc.write(byteBuffer);
+        System.out.println("first write:"+byteBuffer.capacity()+","+byteBuffer.limit()+","+byteBuffer.position());
+
+        byteBuffer.flip();
+        System.out.println("second flip:"+byteBuffer.capacity()+","+byteBuffer.limit()+","+byteBuffer.position());
+
+        byte[] byteary2 = "hello world \n  my name is chovy".getBytes();
+        for(byte b:byteary2) {
+            byteBuffer.put(b);
+        }
+        System.out.println("second read:"+byteBuffer.capacity()+","+byteBuffer.limit()+","+byteBuffer.position());
+
+        byteBuffer.flip();
+        System.out.println("third flip:"+byteBuffer.capacity()+","+byteBuffer.limit()+","+byteBuffer.position());
+        
+
         fileOutputStream.close();
     }
 
