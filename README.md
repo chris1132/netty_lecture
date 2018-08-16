@@ -109,5 +109,22 @@ nio中，buffer既可以写入数据，也可以从buffer读取，但当进行�
 7、channel值得是可以向其写入数据或是从中读取数据的对象，类似于java.io中的stream，所有数据的读写都是通过buffer进行
 与stream不同的是，channel是双向的，一个流只能是inputstream或是outputstream，channel打开后，则可以读取、写入、读写
 由于channel是双向的，因此它能更好地反映出底层操作系统的真是情况，如在linux中，底层操作系统的通道是双向的，
-8、关于NIO Buffer中的3个重要状态属性及其含义：position、limit、capacity
-详解见博客
+8、关于NIO Buffer中的几个属性
+capacity：buffer包含的元素的个数，分配好后永远不会变化，如：IntBuffer b = IntBuffer.allocate（10），元素的数量就是10。
+limit：第一个不能再读或不能再写的元素的索引，值小于等于capacity。
+position：下一个将要被读或写的元素的索引，值小于等于limit。
+mark，reset：如position读取到5是，使用mark，进行标记，然后继续往下读，然后可以通过调用reset，重新从5开始读。0<=mark<=position<=limit<=capacity；
+clear：将limit设为capacity，position设为0，将buffer设为初始化状态；
+flip：将limit设为当前position，将position设为0，重头开始读写；
+rewind：limit不变，position设为0，buffer重新读取。
+
+绝对方法和相对方法
+相对方法：limit和position的值，在操作时需考虑到，由netty底层方法进行更改，如flip方法。
+绝对方法：limit和position的值不会更改，根据buffer的索引直接get和put。
+
+9、ByteBuffer buffer = ByteBuffer.allocate(10); ByteBuffer sliceBuffer = buffer.slice();
+slice方法是创建一个和当前buffer共享内容块的新buffer，sliceBuffer更改内容buffer里也能看到，因此，新的buffer其实是索引
+
+10、如果用HeapByteBuffer，操作系统不是直接处理java堆上的HeapByteBuffer里面的字节数组，而是拷贝一份到java堆外开辟的内存空间，再从堆外空间取数据和IO设备交互。
+
+如果使用DirectByteBuffer，IO设备直接和堆外内存做交互。（ZeroCopy 零拷贝）

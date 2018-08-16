@@ -36,10 +36,13 @@ public class NioTest3 {
             byteBuffer.put(b);
         }
         System.out.println("second read:"+byteBuffer.capacity()+","+byteBuffer.limit()+","+byteBuffer.position());
-
+        byteBuffer.rewind();
+        System.out.println(" rewind:"+byteBuffer.capacity()+","+byteBuffer.limit()+","+byteBuffer.position());
+        byteBuffer.put("sd".getBytes());
+        System.out.println(" rewind put:"+byteBuffer.capacity()+","+byteBuffer.limit()+","+byteBuffer.position());
         byteBuffer.flip();
         System.out.println("third flip:"+byteBuffer.capacity()+","+byteBuffer.limit()+","+byteBuffer.position());
-        
+        fc.write(byteBuffer);
 
         fileOutputStream.close();
     }
