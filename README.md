@@ -128,3 +128,19 @@ slice方法是创建一个和当前buffer共享内容块的新buffer，sliceBuff
 10、如果用HeapByteBuffer，操作系统不是直接处理java堆上的HeapByteBuffer里面的字节数组，而是拷贝一份到java堆外开辟的内存空间，再从堆外空间取数据和IO设备交互。
 
 如果使用DirectByteBuffer，IO设备直接和堆外内存做交互。（ZeroCopy 零拷贝）
+11、scattering，gathering。
+scattering（分散成多个）在读数据时可以传递buffer数组，将来自一个channe中的数据读到多个buffer中，是按照顺序读。如channel中有20个字节，然后三个buffer长度分别是（10,5,5），在读的时候先读满第一个，接着读满第二个，再第三个。
+应用场景：如http的请求，header中的数据写入若干buffer，body中的数据写入另外的buffer，这样就自然的实现数据分
+ByteBuffer header = ByteBuffer.allocate(128);
+ByteBuffer body   = ByteBuffer.allocate(1024);
+ByteBuffer[] bufferArray = { header, body }
+channel.read(bufferArray);
+
+gathering（合成一个），多个buffer数据写入到一个channel中，往外写的是时候可以传递一个buffer数组，在写的时候，先写第一个，在第二个.....
+
+12、selector。
+https://github.com/chris1132/netty_lecture/blob/master/src/main/java/com/chovy/nio/NioTest11.java
+
+需求：nio server端编写，实现两个客户端A B 连接，A向服务器发消息后，B收到A发的消息，打印消息来源+消息内容。
+https://github.com/chris1132/netty_lecture/blob/master/src/main/java/com/chovy/nio/NioServer.java
+ps：Set<SelectionKey>在用完后，要调用clear方法进行清理。
