@@ -141,6 +141,10 @@ gathering（合成一个），多个buffer数据写入到一个channel中，往�
 12、selector。
 https://github.com/chris1132/netty_lecture/blob/master/src/main/java/com/chovy/nio/NioTest11.java
 
-需求：nio server端编写，实现两个客户端A B 连接，A向服务器发消息后，B收到A发的消息，打印消息来源+消息内容。
-https://github.com/chris1132/netty_lecture/blob/master/src/main/java/com/chovy/nio/NioServer.java
+需求：实现两个客户端A B 连接服务器，A向服务器发消息后，B收到A发的消息，打印消息来源客户端+消息内容。
+nio server端编写：https://github.com/chris1132/netty_lecture/blob/master/src/main/java/com/chovy/nio/NioServer.jav
 ps：Set<SelectionKey>在用完后，要调用clear方法进行清理。
+nio client端编写：https://github.com/chris1132/netty_lecture/blob/master/src/main/java/com/chovy/nio/NioClient.java
+
+2018-8-24
+字符集编解码
