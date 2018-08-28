@@ -30,7 +30,15 @@ public class NioTestDecodeEncode {
 
         MappedByteBuffer inputData = inputChannel.map(FileChannel.MapMode.READ_ONLY,0,inputLength);
 
-        Charset charset = Charset.forName("utf-8");
+        System.out.println("==============");
+
+        Charset.availableCharsets().forEach((k,v)->{
+            System.out.println(k+":"+v);
+        });
+
+        System.out.println("==============");
+
+        Charset charset = Charset.forName("iso-8859-1");
         CharsetDecoder charsetDecoder = charset.newDecoder();
         CharsetEncoder charsetEncoder = charset.newEncoder();
 

@@ -12,8 +12,11 @@ import java.net.URI;
 /**
  * Created by wangchaohui on 2018/7/20.
  */
+//SimpleChannelInboundHandler,入栈，数据从外边进来。SimpleChannelOutboundHandler，出栈，把数据发到客户端，
 public class TestServerHandler extends SimpleChannelInboundHandler<HttpObject> {
 
+    //ChannelHandlerContext 消息对象，HttpObject 请求对象
+    //连接进来时  handlerAdded-》channelRegistered-》channelActive-》channelRead0-》channelInactive-》channelUnregistered
     @Override
     public void channelRead0(ChannelHandlerContext ctx,HttpObject msg)throws Exception{
         if(msg instanceof HttpRequest){
