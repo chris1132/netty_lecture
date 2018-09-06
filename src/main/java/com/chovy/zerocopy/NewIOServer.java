@@ -16,14 +16,14 @@ import java.util.Set;
 public class NewIOServer {
     public static void main(String[] arg) throws Exception{
         ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
-        serverSocketChannel.configureBlocking(false);
+        serverSocketChannel.configureBlocking(true);
         ServerSocket serverSocket = serverSocketChannel.socket();
         serverSocket.bind(new InetSocketAddress(8899));
 
         ByteBuffer buffer = ByteBuffer.allocate(4096);
         while(true){
             SocketChannel socketChannel = serverSocketChannel.accept();
-            socketChannel.configureBlocking(false);
+            socketChannel.configureBlocking(true);
 
             int readcount = 0;
 
@@ -33,8 +33,9 @@ public class NewIOServer {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-
+                buffer.rewind();
             }
+
         }
 
     }
