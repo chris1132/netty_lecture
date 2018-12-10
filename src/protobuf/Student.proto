@@ -2,7 +2,7 @@ syntax = "proto2";
 
 option optimize_for = SPEED;
 option java_package = "com.chovy.protobuf";
-option java_outer_classname = "DataInfo";
+option java_outer_classname = "StuffDataInfo";
 
 message Student{
     required string name = 1;
